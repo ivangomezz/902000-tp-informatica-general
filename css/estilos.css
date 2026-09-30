@@ -1,0 +1,28 @@
+body {
+    background-image: url(img/fondo1.jpg);
+}
+
+.contenedor{
+    text-align: center;
+    
+}
+
+header{
+    text-align: center;
+}
+
+/*esta seccion  es para el solitario,  no tocar*/
+:root{
+    --bg-color: #1e5631;
+    --slot-border: rgba(255, 255, 255, 0.25);
+    --card-width: clampt(50px 9vw, 90px);
+    --card-height: calc(var(--card-width) * 1.4);
+    --card-radius:  6px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+

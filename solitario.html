@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilosSolitario.css">
+    <title>Tribia</title>
+</head>
+<body>
+    <header>
+        menu de navegacion pendiente
+    </header>
+    <main class="solitario-container">
+        <h1>Solitario</h1>
+        <section class="game-info">
+            <p>info pendiente</p>
+            <div class="stats-bar">
+                <span>Puntaje: <span id="score">0</span></span>
+                <span>Movimientos: <span id="Moves">0</span></span>
+                <button id="btn-reiniciar">Nueva Partida</button>
+            </div>
+        </section>
+
+        <!--tablero-->
+        <div class="board">
+            <!--mazo y pila de roba-->
+            <div class="top-row">
+                <div id="deck" class="pile">Mazo</div>
+                <div id="draw-pile" class="pile">Robadas</div>
+                <div class="foundations-container">
+                    <div class="foundation pile" data-suit="spades">♠</div>
+                    <div class="foundation pile" data-suit="hearts">♥</div>
+                    <div class="foundation pile" data-suit="diamonds">♦</div>
+                    <div class="foundation pile" data-suit="clubs">♣</div>
+                </div>
+            </div>
+
+            <!--Pilas del tablero (tableau)-->
+            <div class="tableau-container">
+                <div class="tableau-pile pile" data-column="0"></div>
+                <div class="tableau-pile pile" data-column="1"></div>
+                <div class="tableau-pile pile" data-column="2"></div>
+                <div class="tableau-pile pile" data-column="3"></div>
+                <div class="tableau-pile pile" data-column="4"></div>
+                <div class="tableau-pile pile" data-column="5"></div>
+                <div class="tableau-pile pile" data-column="6"></div>
+            </div>
+        </div>
+    </main>
+    <script src="js/solitario.js"></script>
+</body>
+</html>
