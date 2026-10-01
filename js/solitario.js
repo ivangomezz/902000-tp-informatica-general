@@ -2,7 +2,7 @@ const API_BASE = "https://deckofcardsapi.com/api/deck";
 let deckId = null;
 let score = 0;
 let moves = 0;
-let selectedCard = null; // Guarda la carta que el usuario seleccionó para mover
+let selectedCard = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     const btnReiniciar = document.getElementById("btn-reiniciar");
@@ -34,16 +34,15 @@ async function initGame() {
             const drawData = await drawRes.json();
             
             drawData.cards.forEach((card, index) => {
-                // Asignamos propiedades útiles para las reglas
                 card.color = (card.suit === 'DIAMONDS' || card.suit === 'HEARTS') ? 'red' : 'black';
                 card.numericValue = getNumericValue(card.value);
                 
-                renderCardInColumn(tableauColumns[i], card, index === count - 1, index, i);
+                renderCardInColumn(tableauColumns[i], card, index === count - 1, index);
             });
         }
     } catch (error) {
         console.error("Error al inicializar el solitario con la API:", error);
-        alert("Hubo un error al conectar con la API de cartas desde GitHub Pages.");
+        alert("Hubo un error al conectar con la API de cartas.");
     }
 }
 
@@ -55,10 +54,10 @@ function getNumericValue(val) {
     return parseInt(val);
 }
 
-function renderCardInColumn(columnElement, card, isFaceUp, index, columnIndex) {
+function renderCardInColumn(columnElement, card, isFaceUp, index) {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
-    cardDiv.style.setProperty('--card-offset', `${index * 25}px`);
+    cardDiv.style.setProperty('--card-offset', `${index * 22}px`); // Espaciado en cascada compacto
 
     if (isFaceUp) {
         cardDiv.innerHTML = `<img src="${card.image}" alt="${card.value} of ${card.suit}">`;
@@ -68,37 +67,28 @@ function renderCardInColumn(columnElement, card, isFaceUp, index, columnIndex) {
         cardDiv.innerHTML = `<div class="card-back">🂠</div>`;
     }
 
-    // Lógica real de interacción al hacer clic en una carta
     cardDiv.addEventListener("click", (e) => {
-        e.stopPropagation(); // Evita que el clic propague a la columna entera
-
-        if (!isFaceUp) return; // No se pueden interactuar con cartas boca abajo
+        e.stopPropagation();
+        if (!isFaceUp) return;
 
         if (!selectedCard) {
-            // Seleccionar carta
-            selectedCard = { card, element: cardDiv, columnIndex };
-            cardDiv.classList.add("selected"); // Puedes darle estilo CSS de borde brillante
+            selectedCard = { card, element: cardDiv };
+            cardDiv.classList.add("selected");
         } else {
-            // Si ya había una carta seleccionada, intentamos moverla o cambiar selección
             if (selectedCard.element === cardDiv) {
-                // Deseleccionar si hace clic en la misma
                 cardDiv.classList.remove("selected");
                 selectedCard = null;
             } else {
-                // Intentar regla de movimiento básica en Tableau: color alternado y valor descendente (-1)
                 if (card.color !== selectedCard.card.color && card.numericValue === selectedCard.card.numericValue + 1) {
                     moves++;
                     score += 10;
-                    
-                    // Mover visualmente el elemento a la nueva columna
                     columnElement.appendChild(selectedCard.element);
                     selectedCard.element.classList.remove("selected");
                     selectedCard = null;
                     updateUI();
                 } else {
-                    // Si no es un movimiento válido, cambiamos la selección a esta nueva carta
                     selectedCard.element.classList.remove("selected");
-                    selectedCard = { card, element: cardDiv, columnIndex };
+                    selectedCard = { card, element: cardDiv };
                     cardDiv.classList.add("selected");
                 }
             }

@@ -4,16 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/estilosSolitario.css">
-    <title>Tribia</title>
+    <title>Tribia - Solitario</title>
 </head>
 <body>
     <header>
-        menu de navegacion pendiente
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="solitario.html" class="active">Solitario</a></li>
+            </ul>
+        </nav>
     </header>
+
     <main class="solitario-container">
         <h1>Solitario</h1>
         <section class="game-info">
-            <p>info pendiente</p>
             <div class="stats-bar">
                 <span>Puntaje: <span id="score">0</span></span>
                 <span>Movimientos: <span id="moves">0</span></span>
@@ -21,9 +26,9 @@
             </div>
         </section>
 
-        <!--tablero-->
+        <!-- Tablero -->
         <div class="board">
-            <!--mazo y pila de roba-->
+            <!-- Mazo y pila de roba -->
             <div class="top-row">
                 <div id="deck" class="pile">Mazo</div>
                 <div id="draw-pile" class="pile">Robadas</div>
@@ -35,7 +40,7 @@
                 </div>
             </div>
 
-            <!--Pilas del tablero (tableau)-->
+            <!-- Pilas del tablero (tableau) -->
             <div class="tableau-container">
                 <div class="tableau-pile pile" data-column="0"></div>
                 <div class="tableau-pile pile" data-column="1"></div>
@@ -47,6 +52,7 @@
             </div>
         </div>
     </main>
+
     <script src="js/solitario.js"></script>
 </body>
 </html>
