@@ -81,10 +81,11 @@ function renderCardInColumn(columnElement, card, isFaceUp, index) {
         cardDiv.classList.add("face-up");
     } else {
         cardDiv.classList.add("face-down");
-        // Usamos una clase limpia para el dorso en lugar de texto plano roto
         cardDiv.innerHTML = `<div class="card-back"></div>`;
     }
-
+    // ... resto del evento click ...
+    columnElement.appendChild(cardDiv);
+}
     cardDiv.addEventListener("click", (e) => {
         e.stopPropagation();
         if (!isFaceUp) return; // Las cartas boca abajo no se seleccionan

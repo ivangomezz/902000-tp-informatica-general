@@ -88,6 +88,7 @@ header nav ul li a.active {
     height: 100%;
     border-radius: 6px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+    display: block;
 }
 
 .card.selected {
@@ -95,11 +96,25 @@ header nav ul li a.active {
     z-index: 100;
 }
 
+.card.face-down, 
 .card-back {
+    background-color: #1b65d !important;
+    border: 2px solid #ffffff !important;
+    border-radius: 6px;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135degrees135deg, #1e3c72 0%, #2a5298 100%);
-    border: 2px solid white;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+#deck {
+    width: 70px;
+    height: 100px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    border-radius: white;
 }
