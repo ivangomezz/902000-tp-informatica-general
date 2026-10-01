@@ -54,14 +54,16 @@ tableau-container {
 }
 
 .tableau-pile {
-    min-height: 200px;
+    min-height: 300px;
     position: relative;
 }
 
 .card {
     position: absolute;
-    width: 70px;
-    height: 100px;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 120px;
     border-radius: 5px;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -70,7 +72,10 @@ tableau-container {
 
 .tableau-pile .card{
     /*efecto cartas tablero cascada*/
-    top: var(--card-offset, 0px);
+    transform: translateY(var(--card-offset, 0px));
+}
+.tableau-pile .card:hover {
+    z-index: 10;
 }
 
 .card img {
@@ -89,4 +94,10 @@ tableau-container {
     align-items: center;
     font-size: 24px;
     color: white;
+}
+
+.card.selected {
+    outline: 4px solid #ffcc00;
+    transform: translateY(var(--card-offset, 0px)) scale(1.05);
+    z-index: 100;
 }

@@ -2,6 +2,7 @@ const API_BASE = "https://deckofcardsapi.com/api/deck";
 let deckId = null;
 let score = 0;
 let moves = 0;
+let selectedCard = null; // Guarda la carta que el usuario seleccionó para mover
 
 document.addEventListener("DOMContentLoaded", () => {
     const btnReiniciar = document.getElementById("btn-reiniciar");
@@ -15,9 +16,9 @@ async function initGame() {
     try {
         score = 0;
         moves = 0;
+        selectedCard = null;
         updateUI();
         
-        // Forzar https para evitar bloqueos de seguridad en GitHub Pages
         const response = await fetch(`${API_BASE}/new/shuffle/?deck_count=1`);
         if (!response.ok) throw new Error("No se pudo conectar con el servidor de cartas.");
         
@@ -33,7 +34,11 @@ async function initGame() {
             const drawData = await drawRes.json();
             
             drawData.cards.forEach((card, index) => {
-                renderCardInColumn(tableauColumns[i], card, index === count - 1, index);
+                // Asignamos propiedades útiles para las reglas
+                card.color = (card.suit === 'DIAMONDS' || card.suit === 'HEARTS') ? 'red' : 'black';
+                card.numericValue = getNumericValue(card.value);
+                
+                renderCardInColumn(tableauColumns[i], card, index === count - 1, index, i);
             });
         }
     } catch (error) {
@@ -42,7 +47,15 @@ async function initGame() {
     }
 }
 
-function renderCardInColumn(columnElement, card, isFaceUp, index) {
+function getNumericValue(val) {
+    if (val === 'ACE') return 1;
+    if (val === 'JACK') return 11;
+    if (val === 'QUEEN') return 12;
+    if (val === 'KING') return 13;
+    return parseInt(val);
+}
+
+function renderCardInColumn(columnElement, card, isFaceUp, index, columnIndex) {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
     cardDiv.style.setProperty('--card-offset', `${index * 25}px`);
@@ -55,11 +68,40 @@ function renderCardInColumn(columnElement, card, isFaceUp, index) {
         cardDiv.innerHTML = `<div class="card-back">🂠</div>`;
     }
 
-    cardDiv.addEventListener("click", () => {
-        if (isFaceUp) {
-            moves++;
-            score += 5;
-            updateUI();
+    // Lógica real de interacción al hacer clic en una carta
+    cardDiv.addEventListener("click", (e) => {
+        e.stopPropagation(); // Evita que el clic propague a la columna entera
+
+        if (!isFaceUp) return; // No se pueden interactuar con cartas boca abajo
+
+        if (!selectedCard) {
+            // Seleccionar carta
+            selectedCard = { card, element: cardDiv, columnIndex };
+            cardDiv.classList.add("selected"); // Puedes darle estilo CSS de borde brillante
+        } else {
+            // Si ya había una carta seleccionada, intentamos moverla o cambiar selección
+            if (selectedCard.element === cardDiv) {
+                // Deseleccionar si hace clic en la misma
+                cardDiv.classList.remove("selected");
+                selectedCard = null;
+            } else {
+                // Intentar regla de movimiento básica en Tableau: color alternado y valor descendente (-1)
+                if (card.color !== selectedCard.card.color && card.numericValue === selectedCard.card.numericValue + 1) {
+                    moves++;
+                    score += 10;
+                    
+                    // Mover visualmente el elemento a la nueva columna
+                    columnElement.appendChild(selectedCard.element);
+                    selectedCard.element.classList.remove("selected");
+                    selectedCard = null;
+                    updateUI();
+                } else {
+                    // Si no es un movimiento válido, cambiamos la selección a esta nueva carta
+                    selectedCard.element.classList.remove("selected");
+                    selectedCard = { card, element: cardDiv, columnIndex };
+                    cardDiv.classList.add("selected");
+                }
+            }
         }
     });
 
@@ -72,15 +114,4 @@ function updateUI() {
     
     if (scoreElement) scoreElement.textContent = score;
     if (movesElement) movesElement.textContent = moves;
-}
-
-function guardarRecordPartida() {
-    let records = JSON.parse(localStorage.getItem("tp1_records")) || [];
-    records.push({
-        juego: "Solitario",
-        puntaje: score,
-        movimientos: moves,
-        fecha: new Date().toLocaleDateString()
-    });
-    localStorage.setItem("tp1_records", JSON.stringify(records));
 }
