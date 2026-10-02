@@ -162,7 +162,7 @@ function revealLastCardInColumn(columnElement) {
 function renderCardInColumn(columnElement, card, isFaceUp, index) {
     const cardDiv = document.createElement("div");
     cardDiv.classList.add("card");
-    cardDiv.style.setProperty('--card-offset', `${index * 25}px`);
+    cardDiv.style.setProperty('--card-offset', `${index * 15}px`);
     cardDiv.dataset.img = card.image;
     cardDiv.cardData = card; // Vincular datos directamente al elemento
 
@@ -200,7 +200,7 @@ function renderCardInColumn(columnElement, card, isFaceUp, index) {
                     score += 10;
                     
                     const newIndex = columnElement.querySelectorAll('.card').length;
-                    selectedCard.element.style.setProperty('--card-offset', `${newIndex * 25}px`);
+                    selectedCard.element.style.setProperty('--card-offset', `${newIndex * 15}px`);
                     
                     columnElement.appendChild(selectedCard.element);
                     selectedCard.element.classList.remove("selected");

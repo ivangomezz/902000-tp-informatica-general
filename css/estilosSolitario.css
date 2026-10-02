@@ -95,9 +95,8 @@ header nav ul li a.active {
     z-index: 100;
 }
 
-.card.face-down, 
 .card-back {
-    background-color: #1b365d !important; /* Corregido el hex (faltaba un 3) */
+    background-color: #1b365d !important;
     border: 2px solid #ffffff !important;
     border-radius: 6px;
     width: 100%;
