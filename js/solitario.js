@@ -57,6 +57,14 @@ async function initGame() {
         deckId = data.deck_id;
 
         const tableauColumns = document.querySelectorAll(".tableau-pile");
+
+        const foundations = document.querySelectorAll(".foundation");
+     foundations.forEach(foundation => {
+     // Buscamos todas las cartas que hayan quedado en la fundación de la partida anterior
+     const cardsInFoundation = foundation.querySelectorAll('.card');
+     // Las eliminamos una por una para no borrar el símbolo del palo que está en el fondo
+     cardsInFoundation.forEach(card => card.remove());
+     });
         
         // 1. Repartir Tableau
         for (let i = 0; i < tableauColumns.length; i++) {
