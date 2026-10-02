@@ -285,3 +285,52 @@ function updateDeckUI() {
         deckElement.innerHTML = `<div class="card-back" style="width:100%; height:100%;"></div>`;
     }
 }
+
+// Lógica para los 4 huecos finales (Fundaciones) arriba a la derecha
+const foundations = document.querySelectorAll(".foundation");
+foundations.forEach(foundation => {
+    foundation.addEventListener("click", () => {
+        if (selectedCard) {
+            // Comparamos el palo del hueco con el de la carta
+            const targetSuit = foundation.dataset.suit.toUpperCase();
+            const cardSuit = selectedCard.cardData.suit.toUpperCase();
+            const cardsInFoundation = foundation.querySelectorAll('.card');
+
+            let isValidMove = false;
+
+            if (cardsInFoundation.length === 0) {
+                // Si el hueco está vacío, solo entra el As (1) de ese palo exacto
+                if (selectedCard.cardData.numericValue === 1 && cardSuit === targetSuit) {
+                    isValidMove = true;
+                }
+            } else {
+                // Si ya tiene cartas, debe ser el mismo palo y el número siguiente (+1)
+                const topCardElement = cardsInFoundation[cardsInFoundation.length - 1];
+                const topCardData = topCardElement.cardData;
+
+                if (cardSuit === targetSuit && selectedCard.cardData.numericValue === topCardData.numericValue + 1) {
+                    isValidMove = true;
+                }
+            }
+
+            if (isValidMove) {
+                moves++;
+                score += 50; // Bonus de puntos por subir una carta
+                
+                // Quitamos el efecto cascada para que queden apiladas perfectas
+                selectedCard.element.style.setProperty('--card-offset', `0px`);
+
+                foundation.appendChild(selectedCard.element);
+                selectedCard.element.classList.remove("selected");
+                
+                // Si la carta venía de abajo, destapamos la que quedó oculta
+                if (selectedCard.sourceColumn.classList.contains("tableau-pile")) {
+                    revealLastCardInColumn(selectedCard.sourceColumn);
+                }
+                
+                selectedCard = null;
+                updateUI();
+            }
+        }
+    });
+});
