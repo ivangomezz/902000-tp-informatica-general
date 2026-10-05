@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP1 - Inicio</title>
+    <title>TP1 - Centro de Juegos Retro</title>
     <!-- Hoja de estilos externa unificada -->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/estilos.css">
+
+    <link rel="stylesheet" href="css/estilosIndex.css">
+
 </head>
 <body>
     <header>
@@ -13,14 +16,69 @@
             <ul>
                 <li><a href="index.html" class="active">Inicio</a></li>
                 <li><a href="solitario.html">Solitario</a></li>
-                <li><a href="solitario.html">Generala</a></li>
-
+                <li><a href="generala.html">Generala</a></li>
+                <li><a href="trivia.html">Trivia</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <!-- Página vacía, solo menú -->
+    <main class="home-container">
+        <!-- Banner / Ventana de Bienvenida estilo Retro -->
+        <section class="window-box">
+            <div class="window-header">
+                <span class="window-title">C:\JUEGOS_RETRO\BIENVENIDO.EXE</span>
+                <div class="window-controls">
+                    <span class="win-btn">_</span>
+                    <span class="win-btn">□</span>
+                    <span class="win-btn close">X</span>
+                </div>
+            </div>
+            <div class="window-body">
+                <h1> Arcade & Gaming Zone </h1>
+                <p>Selecciona un juego del menú o haz clic en uno de los accesos directos para empezar a jugar.</p>
+            </div>
+        </section>
+
+        <!-- Grilla de Accesos Directos a los Juegos -->
+        <section class="games-grid">
+            
+            <!-- Tarjeta Solitario -->
+            <a href="solitario.html" class="game-card">
+                <div class="game-icon">
+                    <span>🃏</span>
+                </div>
+                <h2>Solitario</h2>
+                <p>El clásico juego de cartas de Windows. Ordena la baraja por palos de la A a la K.</p>
+                <span class="btn-play">JUGAR.EXE</span>
+            </a>
+
+            <!-- Tarjeta Generala -->
+            <a href="generala.html" class="game-card">
+                <div class="game-icon">
+                    <span>🎲</span>
+                </div>
+                <h2>Generala</h2>
+                <p>Lanza los dados, arma las mejores combinaciones y suma el mayor puntaje posible.</p>
+                <span class="btn-play">JUGAR.EXE</span>
+            </a>
+
+            <!-- Tarjeta Trivia -->
+            <a href="trivia.html" class="game-card">
+                <div class="game-icon">
+                    <span>❓</span>
+                </div>
+                <h2>Trivia</h2>
+                <p>Ponte a prueba respondiendo preguntas de conocimiento de la serie South Park. ¡No dejes que Kenny muera!</p>
+                <span class="btn-play">JUGAR.EXE</span>
+            </a>
+
+        </section>
+
+        <!-- Barra de estado inferior estilo Windows 9x -->
+        <footer class="status-bar">
+            <span> Ready.</span>
+            <span>3 Objetos cargados</span>
+        </footer>
     </main>
 </body>
 </html>
