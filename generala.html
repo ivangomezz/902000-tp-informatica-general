@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/estilos.css">
+    <title>Generala Simpsons</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="solitario.html">Solitario</a></li>
+                <li><a href="generala.html" class="active">Generala Simpsons</a></li>
+               
+            </ul>
+        </nav>
+    </header>
+
+    <main class="simpsons-container">
+        <h1>Generala Springfield</h1>
+        
+        <section class="game-info">
+            <div class="stats-bar">
+                <span>Turno de: <strong id="jugador-actual">Jugador 1</strong></span>
+                <span>Ronda: <span id="ronda-actual">1</span> / 3</span>
+                <span>Tiros restantes: <span id="tiros-restantes">3</span></span>
+                <span>Tiempo turno: <span id="timer">30</span>s</span>
+                <button id="btn-reiniciar">Nueva Partida</button>
+            </div>
+        </section>
+
+        <!-- Tablero de Dados -->
+        <section class="board-simpsons">
+            <div id="dados-container" class="dados-container">
+                <div class="dado-slot" data-index="0"><img src="img/dado-1.png" alt="Dado 1" class="dado-img"></div>
+                <div class="dado-slot" data-index="1"><img src="img/dado-2.png" alt="Dado 2" class="dado-img"></div>
+                <div class="dado-slot" data-index="2"><img src="img/dado-3.png" alt="Dado 3" class="dado-img"></div>
+                <div class="dado-slot" data-index="3"><img src="img/dado-4.png" alt="Dado 4" class="dado-img"></div>
+                <div class="dado-slot" data-index="4"><img src="img/dado-5.png" alt="Dado 5" class="dado-img"></div>
+            </div>
+
+            <div class="acciones">
+                <button id="btn-lanzar" class="btn-simpsons">¡Lanzar Dados!</button>
+            </div>
+        </section>
+
+        <!-- Anotador / Planilla de Puntajes -->
+        <section class="tabla-puntajes-container">
+            <h2>Planilla de Puntajes</h2>
+            <table class="tabla-puntajes">
+                <thead>
+                    <tr>
+                        <th>Categoría</th>
+                        <th>Jugador 1</th>
+                        <th>Jugador 2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Escalera (20 pts)</td>
+                        <td><button class="btn-anotar" data-jugador="0" data-cat="escalera" disabled>-</button></td>
+                        <td><button class="btn-anotar" data-jugador="1" data-cat="escalera" disabled>-</button></td>
+                    </tr>
+                    <tr>
+                        <td>Póker (40 pts)</td>
+                        <td><button class="btn-anotar" data-jugador="0" data-cat="poker" disabled>-</button></td>
+                        <td><button class="btn-anotar" data-jugador="1" data-cat="poker" disabled>-</button></td>
+                    </tr>
+                    <tr>
+                        <td>Generala (50 pts)</td>
+                        <td><button class="btn-anotar" data-jugador="0" data-cat="generala" disabled>-</button></td>
+                        <td><button class="btn-anotar" data-jugador="1" data-cat="generala" disabled>-</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th id="total-j1">0</th>
+                        <th id="total-j2">0</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+    </main>
+
+    <script src="js/generala.js"></script>
+</body>
+</html>
