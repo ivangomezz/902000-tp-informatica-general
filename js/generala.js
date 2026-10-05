@@ -1,6 +1,11 @@
+// --- CONFIGURACIÓN DE APIS ---
+const API_DADOS_URL = "https://api.open5e.com/v1/dice/roll/";
+// Podés reemplazar esta URL por tu propio endpoint de MockAPI (https://mockapi.io)
+const API_RECORDS_URL = "https://jsonplaceholder.typicode.com/posts"; 
+
 // --- ESTADO DEL JUEGO ---
 const TOTAL_RONDAS = 3;
-const TIEMPO_TURNO = 30; // Segundos por turno (Cumple el requisito de Timer de la cátedra)
+const TIEMPO_TURNO = 30; // Segundos por turno
 
 let jugadorActual = 0; // 0 para Jugador 1, 1 para Jugador 2
 let rondaActual = 1;
@@ -8,7 +13,7 @@ let tirosRestantes = 3;
 let timerTurno = null;
 let tiempoRestante = TIEMPO_TURNO;
 
-// Representa el valor actual de los 5 dados y si están bloqueados/guardados
+// Representa el valor actual de los 5 dados y si están retenidos
 let dados = [
     { valor: 1, retenido: false },
     { valor: 1, retenido: false },
@@ -43,6 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
             anotarPuntaje(jugador, categoria);
         });
     });
+
+    // Cargar récords guardados en el servidor/API al iniciar
+    cargarRecordsAPI();
 
     iniciarJuego();
 });
@@ -89,24 +97,50 @@ function reiniciarTimer() {
     }, 1000);
 }
 
-// --- ACCIONES DE JUEGO ---
+// --- ACCIONES DE JUEGO (API GET: DADOS) ---
 
-function lanzarDados() {
+async function lanzarDados() {
     if (tirosRestantes <= 0) return;
 
-    // Generar valores aleatorios para los dados no retenidos
-    dados.forEach((dado, index) => {
-        if (!dado.retenido) {
-            dado.valor = Math.floor(Math.random() * 6) + 1;
+    const btnLanzar = document.getElementById("btn-lanzar");
+    btnLanzar.disabled = true;
+    btnLanzar.textContent = "Lanzando...";
+
+    const dadosATirar = dados.filter(d => !d.retenido).length;
+
+    if (dadosATirar > 0) {
+        try {
+            // Petición GET a la API de dados
+            const response = await fetch(`${API_DADOS_URL}?roll=${dadosATirar}d6`);
+            if (!response.ok) throw new Error("Error en la respuesta de la API de dados");
+            
+            const data = await response.json();
+            const resultadosAPI = data.results;
+
+            let resultIndex = 0;
+            dados.forEach(dado => {
+                if (!dado.retenido) {
+                    dado.valor = resultadosAPI[resultIndex];
+                    resultIndex++;
+                }
+            });
+        } catch (error) {
+            console.warn("Fallo la API de dados, recurriendo a cálculo local:", error);
+            // Fallback en caso de error de red
+            dados.forEach(dado => {
+                if (!dado.retenido) {
+                    dado.valor = Math.floor(Math.random() * 6) + 1;
+                }
+            });
         }
-    });
+    }
 
     tirosRestantes--;
+    btnLanzar.textContent = "Lanzar Dados";
     actualizarInterfaz();
 }
 
 function alternarRetencionDado(index) {
-    // Solo se pueden retener dados si ya se hizo al menos un tiro en el turno
     if (tirosRestantes < 3) {
         dados[index].retenido = !dados[index].retenido;
         const slot = document.querySelectorAll(".dado-slot")[index];
@@ -114,10 +148,9 @@ function alternarRetencionDado(index) {
     }
 }
 
-// --- EVALUACIÓN DE REGLAS (Escalera, Póker, Generala) ---
+// --- EVALUACIÓN DE REGLAS ---
 
 function evaluarJugadas(valoresDados) {
-    // Contamos la frecuencia de cada cara (1 al 6)
     const conteo = {};
     valoresDados.forEach(val => conteo[val] = (conteo[val] || 0) + 1);
     const frecuencias = Object.values(conteo);
@@ -125,7 +158,6 @@ function evaluarJugadas(valoresDados) {
     const esGenerala = frecuencias.includes(5);
     const esPoker = frecuencias.includes(4);
 
-    // Escalera: [1,2,3,4,5] o [2,3,4,5,6] o [1,3,4,5,6]
     const ordenados = [...new Set(valoresDados)].sort((a, b) => a - b);
     const strValores = ordenados.join('');
     const esEscalera = (ordenados.length === 5) && 
@@ -144,7 +176,6 @@ function anotarPuntaje(jugador, categoria) {
     const valoresActuales = dados.map(d => d.valor);
     const resultados = evaluarJugadas(valoresActuales);
 
-    // Guardar los puntos obtenidos
     puntuaciones[jugador][categoria] = resultados[categoria];
 
     pasarTurno();
@@ -154,7 +185,6 @@ function pasarTurno() {
     tirosRestantes = 3;
     resetearDados();
 
-    // Rotar turnos
     if (jugadorActual === 0) {
         jugadorActual = 1;
     } else {
@@ -177,18 +207,15 @@ function actualizarInterfaz() {
     document.getElementById("ronda-actual").textContent = rondaActual;
     document.getElementById("tiros-restantes").textContent = tirosRestantes;
 
-    // Actualizar imágenes PNG de los dados
     const slotsDados = document.querySelectorAll(".dado-slot");
     dados.forEach((dado, index) => {
         const img = slotsDados[index].querySelector("img");
-        img.src = `img/dado-${dado.valor}.png`; // Asegúrate de tener dado-1.png hasta dado-6.png en img/
+        img.src = `img/dado-${dado.valor}.png`;
         img.alt = `Dado ${dado.valor}`;
     });
 
-    // Habilitar/Deshabilitar botón de lanzar
     document.getElementById("btn-lanzar").disabled = (tirosRestantes === 0);
 
-    // Actualizar tabla de posiciones y habilitar/deshabilitar botones de anotación
     const valoresActuales = dados.map(d => d.valor);
     const jugadasPosibles = evaluarJugadas(valoresActuales);
 
@@ -221,7 +248,7 @@ function actualizarInterfaz() {
     document.getElementById("total-j2").textContent = totalJ2;
 }
 
-// --- FINALIZACIÓN Y GUARDADO DE RÉCORDS ---
+// --- FINALIZACIÓN Y GESTIÓN DE RÉCORDS (APIs GET / POST) ---
 
 function finalizarJuego() {
     clearInterval(timerTurno);
@@ -248,18 +275,55 @@ function finalizarJuego() {
     }
 
     alert(`Fin de la partida. ${mensaje}`);
-    guardarRecord(ganadorNombre, ganadorPuntaje);
+    
+    // Guardar récord enviándolo por POST a la API
+    guardarRecordAPI(ganadorNombre, ganadorPuntaje);
 }
 
-function guardarRecord(ganador, puntaje) {
-    const record = {
+// --- API POST: ENVIAR RÉCORD AL SERVIDOR ---
+async function guardarRecordAPI(ganador, puntaje) {
+    const nuevoRecord = {
         juego: "Generala Simpsons",
         ganador: ganador,
         puntaje: puntaje,
         fecha: new Date().toLocaleDateString()
     };
 
-    let records = JSON.parse(localStorage.getItem("tp1_records")) || [];
-    records.push(record);
-    localStorage.setItem("tp1_records", JSON.stringify(records));
+    try {
+        const response = await fetch(API_RECORDS_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(nuevoRecord)
+        });
+
+        if (!response.ok) throw new Error("Error al guardar en el servidor");
+
+        const data = await response.json();
+        console.log("Récord guardado exitosamente en la API:", data);
+        alert("¡Puntaje guardado con éxito en el servidor remoto!");
+    } catch (error) {
+        console.warn("No se pudo conectar con la API de récords, guardando en localStorage local:", error);
+        
+        // Guardado de respaldo local
+        let records = JSON.parse(localStorage.getItem("tp1_records")) || [];
+        records.push(nuevoRecord);
+        localStorage.setItem("tp1_records", JSON.stringify(records));
+    }
+}
+
+// --- API GET: OBTENER HISTORIAL DE RÉCORDS ---
+async function cargarRecordsAPI() {
+    try {
+        const response = await fetch(API_RECORDS_URL);
+        if (!response.ok) throw new Error("Error al obtener los récords");
+
+        const records = await response.json();
+        console.log("Récords obtenidos desde la API:", records);
+        
+        // Acá podrías llamar a una función para renderizar la tabla de récords en el HTML
+    } catch (error) {
+        console.warn("Fallo la carga de récords desde la API:", error);
+    }
 }
