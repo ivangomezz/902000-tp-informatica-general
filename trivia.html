@@ -3,42 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="estilos.css">
-    <title>Trivia</title>
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/estilosSouthPark.css">
+    <title>Trivia - South Park</title>
 </head>
 <body>
     <header>
-         <h1>
-            ¡Responde bien todas las preguntas para no matar a Kenny!
-         </h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="solitario.html">Solitario</a></li>
+                <li><a href="generala.html">Generala</a></li>
+                <li><a href="trivia.html" class="active">Trivia</a></li>
+            </ul>
+        </nav>
     </header>
-         <div class="contenedor">
-             <article>
-                 <h2>
-                    ¿De que se trata esta tribia?
-                 </h2>
-                     <p>
-                        Van a haber una serie de preguntas variadas que vas a tener que responder sobre la serie South Park, las reglas son las siguientes:
-                     </p>
-                 <h3>
-                       Reglas
-                 </h3>
-                     <p>
-                        1: Si respondes mas de 3 veces de manera incorrecta las preguntas, Kenny se muere. 
-                     </p>
-                     <p>
-                        2: Si respondes todas las preguntas de manera correcta Kenny se salva.
-                     </p>
-                     <p>
-                        3: Si Kenny muere tenes que empezar el juego nuevamente.
-                     </p>
-                     <p>
-                        4: Si salis del juego antes de terminar la partida, perdes el progreso que hayas hecho cuando entres nuevamente.
-                     </p>
-                     <p>
-                        Jugar
-                     </p>
-             </article>
-         </div>
+
+    <main class="simpsons-container">
+        <h1>Trivia: ¡Salva a Kenny!</h1>
+
+        <!-- Pantalla de Bienvenida / Reglas -->
+        <article id="pantalla-inicio" class="tarjeta-trivia">
+            <h2>¿De qué se trata esta trivia?</h2>
+            <p>
+                Responderás una serie de preguntas sobre la serie South Park obtenidas en tiempo real.
+            </p>
+            <h3>Reglas del Juego</h3>
+            <ol class="lista-reglas">
+                <li>Si respondes más de 3 veces de manera incorrecta, ¡Kenny se muere!</li>
+                <li>Si respondes todas las preguntas correctamente, Kenny se salva.</li>
+                <li>Si Kenny muere, tendrás que empezar el juego nuevamente.</li>
+                <li>Si sales del juego antes de terminar la partida, perderás tu progreso.</li>
+            </ol>
+
+            <div class="acciones">
+                <button id="btn-comenzar" class="btn-simpsons">¡Comenzar Trivia!</button>
+            </div>
+        </article>
+
+        <!-- Pantalla Principal de Juego (Oculta al inicio) -->
+        <article id="pantalla-juego" class="tarjeta-trivia oculto">
+            <section class="game-info">
+                <div class="stats-bar">
+                    <span>Vidas de Kenny: <strong id="corazones">🧡 🧡 🧡</strong></span>
+                    <span>Pregunta: <span id="num-pregunta">1</span> / <span id="total-preguntas">5</span></span>
+                    <span>Aciertos: <span id="contador-aciertos">0</span></span>
+                    <button id="btn-reiniciar">Reiniciar</button>
+                </div>
+            </section>
+
+            <section class="board-simpsons">
+                <div class="pregunta-box">
+                    <h2 id="texto-pregunta">Cargando pregunta desde la API...</h2>
+                </div>
+
+                <div id="opciones-container" class="opciones-grid">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+            </section>
+        </article>
+
+        <!-- Pantalla de Resultado (Oculta al inicio) -->
+        <article id="pantalla-resultado" class="tarjeta-trivia oculto">
+            <h2 id="titulo-resultado"></h2>
+            <p id="mensaje-resultado"></p>
+            <div class="acciones">
+                <button id="btn-jugar-nuevo" class="btn-simpsons">Jugar de Nuevo</button>
+            </div>
+        </article>
+    </main>
+
+    <script src="js/trivia.js"></script>
 </body>
 </html>
