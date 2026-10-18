@@ -12,6 +12,8 @@ header nav ul {
     background: #111;
     padding: 10px 20px;
     margin: 0;
+    justify-content: center;
+    align-items: center;
 }
 
 header nav ul li a {
