@@ -24,8 +24,45 @@
         <!-- Pantalla de Bienvenida / Reglas -->
         <article id="pantalla-inicio" class="tarjeta-trivia"></article>
         <h2>¿De qué se trata este juego?</h2>
-        <p>Responderás una serie de preguntas sobre Diferentes Comics obtenidas en tiempo real.</p>
+        <p>Responderás una serie de preguntas sobre diferentes Comics obtenidas en tiempo real.</p>
         <h3>Reglas del Juego</h3>
+        <ol class="lista-reglas">
+                <li>Si respondes más de 3 veces de manera incorrecta, ¡Perdés!</li>
+                <li>Si respondes todas las preguntas correctamente, Te salvas.</li>
+                <li>Si te morís, tendrás que empezar el juego nuevamente.</li>
+                <li>Si salís del juego antes de terminar la partida, perderás tu progreso.</li>
+        </ol>
+        <div class="acciones">
+                <button id="btn-comenzar" class="btn-simpsons">¡Comenzar a Jugar!</button>
+            </div>
+        </article>
+        <!-- Pantalla Principal de Juego (Oculta al inicio) -->
+        <article id="pantalla-juego" class="tarjeta-trivia oculto">
+            <section class="game-info">
+                <div class="stats-bar">
+                    <span>Vidas: <strong id="corazones">🧡 🧡 🧡</strong></span>
+                    <span>Pregunta: <span id="num-pregunta">1</span> / <span id="total-preguntas">5</span></span>
+                    <span>Aciertos: <span id="contador-aciertos">0</span></span>
+                    <button id="btn-reiniciar">Reiniciar</button>
+                </div>
+            </section>
+            <section class="board-simpsons">
+                <div class="pregunta-box">
+                    <h2 id="texto-pregunta">Cargando pregunta desde la API...</h2>
+                </div>
+                <div id="opciones-container" class="opciones-grid">
+                    <!-- Las opciones se generan dinámicamente -->
+                </div>
+            </section>
+        </article>
+        <!-- Pantalla de Resultado (Oculta al inicio) -->
+        <article id="pantalla-resultado" class="tarjeta-trivia oculto">
+            <h2 id="titulo-resultado"></h2>
+            <p id="mensaje-resultado"></p>
+            <div class="acciones">
+                <button id="btn-jugar-nuevo" class="btn-simpsons">Jugar de Nuevo</button>
+            </div>
+        </article>
     </main>
 <footer> </footer>
     <script src="js/juego-preguntas.js"></script>
