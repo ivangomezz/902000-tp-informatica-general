@@ -13,6 +13,7 @@ header nav ul {
     padding: 10px 20px;
     margin: 0;
     align-items: center;
+    justify-content: center;
 }
 
 header nav ul li a {
