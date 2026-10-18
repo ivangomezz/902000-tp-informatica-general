@@ -1,0 +1,9 @@
+/* Tarjetas integradas al contenedor simpsons */
+.tarjeta-trivia {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
