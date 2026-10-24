@@ -138,3 +138,34 @@ function mostrarPreguntaActual() {
         opcionesContainer.appendChild(btn);
     });
 }
+function evaluarRespuesta(seleccion, correcta) {
+    const botones = opcionesContainer.querySelectorAll(".btn-opcion");
+    botones.forEach(b => b.disabled = true);
+
+    if (seleccion === correcta) {
+        aciertos++;
+        contadorAciertosSpan.textContent = aciertos;
+        indicePreguntaActual++;
+        setTimeout(mostrarPreguntaActual, 800);
+    } else {
+        erroresCometidos++;
+        actualizarVidasUI();
+
+        if (erroresCometidos >= MAX_ERRORES) {
+            setTimeout(() => finalizarJuego(false), 800);
+        } else {
+            indicePreguntaActual++;
+            setTimeout(mostrarPreguntaActual, 800);
+        }
+    }
+}
+
+function actualizarVidasUI() {
+    const restantes = MAX_ERRORES - erroresCometidos;
+    if (restantes <= 0) {
+        corazonesSpan.textContent = "💀 ¡PERDISTE!";
+    } else {
+        corazonesSpan.textContent = "🧡 ".repeat(restantes);
+    }
+}
+
