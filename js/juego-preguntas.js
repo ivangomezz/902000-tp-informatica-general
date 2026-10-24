@@ -69,3 +69,72 @@ async function iniciarJuego() {
     }
 }
 
+async function cargarPreguntasAPI() {
+    const response = await fetch(API_OPENTRIVIADB_URL);
+
+    if (!response.ok) {
+        throw new Error("Error al obtener preguntas");
+    }
+
+    const preguntas = await response.json();
+
+    const personajesMarvel = preguntas.filter(
+        h => h.biography.publisher === "Comics"
+    );
+
+    const listaPreguntas = [];
+
+    for (let i = 0; i < TOTAL_PREGUNTAS; i++) {
+
+        const personaje =
+            personajesMarvel[Math.floor(
+                Math.random() * personajesMarvel.length
+            )];
+
+        let opciones = [personaje.name];
+
+        while(opciones.length < 4){
+
+            const falso =
+                personajesMarvel[Math.floor(
+                    Math.random() * personajesMarvel.length
+                )].name;
+
+            if(!opciones.includes(falso)){
+                opciones.push(falso);
+            }
+        }
+
+        opciones.sort(() => Math.random() - 0.5);
+
+        listaPreguntas.push({
+            enunciado:
+                `¿Qué personaje de Marvel tiene el nombre real "${personaje.biography.fullName}"?`,
+            opciones: opciones,
+            correcta: personaje.name
+        });
+
+    }
+
+    return listaPreguntas;
+}
+
+function mostrarPreguntaActual() {
+    if (indicePreguntaActual >= preguntas.length) {
+        finalizarJuego(true);
+        return;
+    }
+
+    const q = preguntas[indicePreguntaActual];
+    numPreguntaSpan.textContent = indicePreguntaActual + 1;
+    textoPregunta.textContent = q.enunciado;
+    opcionesContainer.innerHTML = "";
+
+    q.opciones.forEach(opcion => {
+        const btn = document.createElement("button");
+        btn.classList.add("btn-opcion");
+        btn.textContent = opcion;
+        btn.addEventListener("click", () => evaluarRespuesta(opcion, q.correcta));
+        opcionesContainer.appendChild(btn);
+    });
+}
