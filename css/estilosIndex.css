@@ -1,7 +1,25 @@
 /* ==========================================================================
    ESTILOS HOME / INDEX (Estética 90s / 2000s)
    ========================================================================== */
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    background: #111;
+    padding: 10px 20px;
+    margin: 0;
+    justify-content: center;
+}
 
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+header nav ul li a.active {
+    font-weight: bold;
+    color: #4CAF50;
+}
 .home-container {
     max-width: 950px;
     margin: 30px auto;
