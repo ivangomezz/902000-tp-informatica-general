@@ -169,3 +169,45 @@ function actualizarVidasUI() {
     }
 }
 
+function finalizarJuego(gano) {
+    pantallaJuego.classList.add("oculto");
+    pantallaResultado.classList.remove("oculto");
+
+    if (gano && erroresCometidos < MAX_ERRORES) {
+        tituloResultado.textContent = "¡OH MI DIOS, SALVASTE A KENNY!";
+        mensajeResultado.textContent = `Lograste contestar ${aciertos} preguntas bien con ${erroresCometidos} error(es). ¡Kenny vivirá un episodio más!`;
+    } else {
+        tituloResultado.textContent = "¡OH MI DIOS, MATARON A KENNY!";
+        mensajeResultado.textContent = `Cometiste ${erroresCometidos} errores. ¡Hijos de p***! Vuelve a intentarlo para salvarlo.`;
+    }
+}
+
+function cargarPreguntasRespaldo() {
+    return [
+        {
+            enunciado: "¿En qué estado de EE.UU. queda el pueblo de South Park?",
+            opciones: ["Colorado", "Texas", "California", "Springfield"],
+            correcta: "Colorado"
+        },
+        {
+            enunciado: "¿Cómo se llama el alter ego superhéroe de Kenny?",
+            opciones: ["Mysterion", "El Mapache", "Profesor Caos", "Human Kite"],
+            correcta: "Mysterion"
+        },
+        {
+            enunciado: "¿Cómo se llama la mamá de Eric Cartman?",
+            opciones: ["Liane", "Sheila", "Sharon", "Carol"],
+            correcta: "Liane"
+        },
+        {
+            enunciado: "¿Qué personaje usa siempre un gorro verde con orejeras?",
+            opciones: ["Kyle Broflovski", "Stan Marsh", "Kenny McCormick", "Craig Tucker"],
+            correcta: "Kyle Broflovski"
+        },
+        {
+            enunciado: "¿Quién es el maestro de 4to grado de los niños?",
+            opciones: ["Sr. Garrison", "Sr. Mackey", "Chef", "Director PC"],
+            correcta: "Sr. Garrison"
+        }
+    ];
+}
