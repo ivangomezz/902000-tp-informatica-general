@@ -70,50 +70,43 @@ async function iniciarJuego() {
 }
 
 async function cargarPreguntasAPI() {
-    const response = await fetch(API_OPENTRIVIADB_URL);
+    const page = Math.floor(Math.random() * 4) + 1;
+    const response = await fetch(`${API_SOUTHPARK_URL}?page=${page}`);
+    if (!response.ok) throw new Error("Error en la respuesta del servidor API");
 
-    if (!response.ok) {
-        throw new Error("Error al obtener preguntas");
-    }
-
-    const preguntas = await response.json();
-
-    const personajesMarvel = preguntas.filter(
-        h => h.biography.publisher === "Comics"
-    );
+    const data = await response.json();
+    const personajes = data.data.filter(p => p.name && (p.occupation || p.religion || p.age));
 
     const listaPreguntas = [];
 
-    for (let i = 0; i < TOTAL_PREGUNTAS; i++) {
+    for (let i = 0; i < Math.min(TOTAL_PREGUNTAS, personajes.length); i++) {
+        const p = personajes[i];
+        let campo = "";
+        let correcta = "";
 
-        const personaje =
-            personajesMarvel[Math.floor(
-                Math.random() * personajesMarvel.length
-            )];
-
-        let opciones = [personaje.name];
-
-        while(opciones.length < 4){
-
-            const falso =
-                personajesMarvel[Math.floor(
-                    Math.random() * personajesMarvel.length
-                )].name;
-
-            if(!opciones.includes(falso)){
-                opciones.push(falso);
-            }
+        if (p.occupation) {
+            campo = "ocupación";
+            correcta = p.occupation;
+        } else if (p.religion) {
+            campo = "religión";
+            correcta = p.religion;
+        } else {
+            campo = "edad";
+            correcta = `${p.age} años`;
         }
 
-        opciones.sort(() => Math.random() - 0.5);
+        const distractores = ["Estudiante", "Profesor", "Católico", "Desconocida", "4to Grado"]
+            .filter(op => op !== correcta)
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+
+        const opciones = [correcta, ...distractores].sort(() => 0.5 - Math.random());
 
         listaPreguntas.push({
-            enunciado:
-                `¿Qué personaje de Marvel tiene el nombre real "${personaje.biography.fullName}"?`,
+            enunciado: `¿Cuál es la/el ${campo} de "${p.name}"?`,
             opciones: opciones,
-            correcta: personaje.name
+            correcta: correcta
         });
-
     }
 
     return listaPreguntas;
@@ -138,6 +131,7 @@ function mostrarPreguntaActual() {
         opcionesContainer.appendChild(btn);
     });
 }
+
 function evaluarRespuesta(seleccion, correcta) {
     const botones = opcionesContainer.querySelectorAll(".btn-opcion");
     botones.forEach(b => b.disabled = true);
