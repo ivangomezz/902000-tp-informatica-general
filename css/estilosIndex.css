@@ -338,3 +338,13 @@ body {
     border: none;
     cursor: pointer;
 }
+
+.info-container {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding: 4px 10px;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: #000000;
+}
