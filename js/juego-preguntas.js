@@ -168,11 +168,11 @@ function finalizarJuego(gano) {
     pantallaResultado.classList.remove("oculto");
 
     if (gano && erroresCometidos < MAX_ERRORES) {
-        tituloResultado.textContent = "¡OH MI DIOS, SALVASTE A KENNY!";
-        mensajeResultado.textContent = `Lograste contestar ${aciertos} preguntas bien con ${erroresCometidos} error(es). ¡Kenny vivirá un episodio más!`;
+        tituloResultado.textContent = "¡OH MI DIOS, GANASTE!";
+        mensajeResultado.textContent = `Lograste contestar ${aciertos} preguntas bien con ${erroresCometidos} error(es). ¡Te salvaste!`;
     } else {
-        tituloResultado.textContent = "¡OH MI DIOS, MATARON A KENNY!";
-        mensajeResultado.textContent = `Cometiste ${erroresCometidos} errores. ¡Hijos de p***! Vuelve a intentarlo para salvarlo.`;
+        tituloResultado.textContent = "¡OH MI DIOS, PERDISTE!";
+        mensajeResultado.textContent = `Cometiste ${erroresCometidos} errores. No pudiste esta vez. Vuelve a intentarlo.`;
     }
 }
 
