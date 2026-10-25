@@ -2,7 +2,7 @@ const API_BASE = "https://deckofcardsapi.com/api/deck";
 let deckId = null;
 let score = 0;
 let moves = 0;
-let timeElapsed = 0; // Para el Timer requerido por la cátedra
+let timeElapsed = 0; // Para el Timer
 let timerInterval = null;
 
 let selectedCard = null; // Guardará: { element, cardData, sourceColumn }
@@ -16,14 +16,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const deckElement = document.getElementById("deck");
     if (deckElement) deckElement.addEventListener("click", drawCardFromDeck);
 
-    // Agregar botón para terminar partida y guardar récord (opcional, pero útil)
+    // Agregar botón para terminar partida y guardar récord )
     const btnGuardar = document.createElement("button");
     btnGuardar.textContent = "Terminar y Guardar";
     btnGuardar.id = "btn-guardar";
     btnGuardar.addEventListener("click", finishAndSaveRecord);
     document.querySelector(".stats-bar").appendChild(btnGuardar);
 
-    // Actualizar el HTML de la barra de estado para incluir el Timer
+    // Actualizar el HTML de la barra de estado 
     const statsBar = document.querySelector(".stats-bar");
     const timerSpan = document.createElement("span");
     timerSpan.innerHTML = `Tiempo: <span id="timer">00:00</span>`;
@@ -130,7 +130,7 @@ function updateTimer() {
     }
 }
 
-// Requisito Cátedra: Guardar récord en LocalStorage
+// Guardar récord en LocalStorage
 function finishAndSaveRecord() {
     clearInterval(timerInterval);
     const date = new Date().toLocaleDateString();
