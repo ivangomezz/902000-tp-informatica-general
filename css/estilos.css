@@ -1,10 +1,6 @@
-body {
-    margin: 0;
-    background-color: #0b6623;
-    font-family: Arial, sans-serif;
-    overflow-x: hidden;
-}
-
+/* ==========================================================================
+   ESTILOS HOME / INDEX (Estética 90s / 2000s)
+   ========================================================================== */
 header nav ul {
     list-style: none;
     display: flex;
@@ -24,101 +20,157 @@ header nav ul li a.active {
     font-weight: bold;
     color: #4CAF50;
 }
-
-.solitario-container {
-    padding: 10px 20px;
-    max-width: 1000px;
-    margin: 0 auto;
+.home-container {
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: "Courier New", Courier, monospace, sans-serif;
+}
+body {
+    margin: 0;
+    background-color: #0b6623;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
 }
 
-.board {
+/* Ventana estilo Windows 95/98 */
+.window-box {
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #ffffff #404040 #404040 #ffffff;
+    padding: 3px;
+    margin-bottom: 30px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.window-header {
+    background: linear-gradient(90deg, #000080, #1084d0);
+    color: white;
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.window-controls {
+    display: flex;
+    gap: 3px;
+}
+
+.win-btn {
+    background: #c0c0c0;
+    color: black;
+    border: 2px solid;
+    border-color: #ffffff #404040 #404040 #ffffff;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.window-body {
+    padding: 20px;
+    color: #000;
+    text-align: center;
+}
+
+.window-body h1 {
+    margin-top: 0;
+    font-size: 1.8rem;
+    color: #000080;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Grilla de Juegos */
+.games-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.game-card {
+    background: #c0c0c0;
+    border: 3px solid;
+    border-color: #ffffff #404040 #404040 #ffffff;
+    padding: 20px;
+    text-decoration: none;
+    color: #000;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-}
-
-.top-row {
-    display: flex;
-    gap: 15px;
     align-items: center;
+    text-align: center;
+    transition: transform 0.1s, border-color 0.1s;
+    box-shadow: 3px 3px 6px rgba(0,0,0,0.4);
 }
 
-.foundations-container {
-    display: flex;
-    gap: 10px;
-    margin-left: auto;
+.game-card:hover {
+    background: #d4d4d4;
+    border-color: #404040 #ffffff #ffffff #404040; /* Efecto presionado */
 }
 
-.tableau-container {
+.game-icon {
+    font-size: 3rem;
+    background: #ffffff;
+    border: 2px inset #808080;
+    width: 80px;
+    height: 80px;
     display: flex;
-    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.game-card h2 {
+    margin: 5px 0;
+    color: #000080;
+    font-size: 1.3rem;
+}
+
+.game-card p {
+    font-size: 0.9rem;
+    color: #333;
+    line-height: 1.3;
+    flex-grow: 1;
+    margin-bottom: 15px;
+}
+
+.btn-play {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #ffffff #404040 #404040 #ffffff;
+    padding: 6px 15px;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #000;
+    box-shadow: 1px 1px 0px #000;
+}
+
+.game-card:hover .btn-play {
+    background: #000080;
+    color: #fff;
+}
+
+/* Barra de Estado */
+.status-bar {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding: 4px 10px;
+    display: flex;
     justify-content: space-between;
+    font-size: 0.8rem;
+    color: #404040;
 }
 
-.tableau-pile {
-    position: relative;
-    min-height: 350px;
-    width: 90px;
-}
-
-.pile {
-    width: 70px;
-    height: 100px;
-    border: 2px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.card {
-    position: absolute;
-    width: 70px;
-    height: 100px;
-    border-radius: 6px;
-    cursor: pointer;
-    transform: translateY(var(--card-offset, 0px));
-    transition: transform 0.2s ease;
-}
-
-.card img {
-    width: 100%;
-    height: 100%;
-    border-radius: 6px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    display: block;
-}
-
-.card.selected {
-    outline: 4px solid #ffcc00;
-    z-index: 100;
-}
-
-.card.face-down, 
-.card-back {
-    background-color: #1b365d !important; /* Corregido el hex (faltaba un 3) */
-    border: 2px solid #ffffff !important;
-    border-radius: 6px;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-}
-
-#deck {
-    width: 70px;
-    height: 100px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    border: 2px dashed rgba(255, 255, 255, 0.4);
-    border-radius: 6px; /* Corregido: antes decía 'white' */
-}
-
+/*Solitario*/
 .solitario-container {
     padding: 10px 20px;
     max-width: 1000px;
@@ -210,4 +262,150 @@ header nav ul li a.active {
     background: rgba(0, 0, 0, 0.2);
     border: 2px dashed rgba(255, 255, 255, 0.4);
     border-radius: 6px; /* Corregido: antes decía 'white' */
+}
+
+/*generala*/
+.simpsons-container {
+    padding: 10px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    color: white;
+}
+
+.dados-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.dado-slot {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 3px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.dado-slot.retenido {
+    border-color: #ffcc00; /* Borde amarillo simpson para los dados retenidos */
+    transform: translateY(-8px);
+}
+
+.dado-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.btn-simpsons {
+    background-color: #ffcc00;
+    color: #111;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-simpsons:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tabla-puntajes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.tabla-puntajes th, .tabla-puntajes td {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    text-align: center;
+}
+
+.btn-anotar {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.info-container {
+    background: #c0c0c0;
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    padding: 4px 10px;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    color: #000000;
+}
+
+/*trivia*/
+
+.tarjeta-trivia {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.oculto {
+    display: none !important;
+}
+
+.lista-reglas {
+    text-align: left;
+    margin: 15px 0;
+    padding-left: 20px;
+    line-height: 1.6;
+}
+
+/* Grilla de opciones para las respuestas */
+.opciones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.btn-opcion {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 6px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn-opcion:hover:not(:disabled) {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
+.btn-opcion:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.pregunta-box h2 {
+    margin: 10px 0;
+    font-size: 1.25rem;
+}
+
+@media (max-width: 600px) {
+    .opciones-grid {
+        grid-template-columns: 1fr;
+    }
 }
